@@ -1,6 +1,10 @@
 // src/lib/utils/loadProjects.ts
 
-import type { ProjectMeta, ProjectPreview, ProjectDetail } from '$lib/types/project';
+import type {
+  ProjectMeta,
+  ProjectPreview,
+  ProjectDetail
+} from '$lib/types/project';
 import type { Picture } from 'vite-imagetools';
 
 type MetaModule = { default: ProjectMeta };
@@ -29,20 +33,23 @@ const allProjectsCache: Map<string, ProjectDetail> = new Map();
   for (const [path, module] of Object.entries(metaModules)) {
     const slug = path.split('/').at(-2)!;
     const meta = module.default;
-    
+
     // Find cover image (any extension)
-    const cover = Object.entries(imageModules)
-      .find(([path]) => path.includes(`/${slug}/cover.`))?.[1]?.default;
-    
+    const cover = Object.entries(imageModules).find(([path]) =>
+      path.includes(`/${slug}/cover.`)
+    )?.[1]?.default;
+
     if (!cover) {
       console.error(`❌ Missing cover image for project "${slug}"`);
       console.error(`   Expected: /src/lib/content/projects/${slug}/cover.*`);
       continue;
     }
-    
+
     // Get all other images (excluding cover)
     const images = Object.entries(imageModules)
-      .filter(([path]) => path.includes(`/${slug}/`) && !path.includes('cover.'))
+      .filter(
+        ([path]) => path.includes(`/${slug}/`) && !path.includes('cover.')
+      )
       .map(([path, module]) => {
         const filename = path.split('/').pop()!;
         return {
@@ -77,7 +84,9 @@ const allProjectsCache: Map<string, ProjectDetail> = new Map();
  */
 export function loadProjectPreviews(): ProjectPreview[] {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const previews: ProjectPreview[] = Array.from(allProjectsCache.values()).map(({ images, ...preview }) => preview);
+  const previews: ProjectPreview[] = Array.from(allProjectsCache.values()).map(
+    ({ images, ...preview }) => preview
+  );
 
   // Sort by duration end date, newest first (if duration exists)
   return previews.sort((a, b) => {

@@ -12,10 +12,14 @@ export const load: PageLoad = ({ params, url }) => {
 
   // Get layout from URL query parameter, validate it's 'left' or 'right'
   const layoutParam = url.searchParams.get('layout');
-  const layout: 'left' | 'right' | null = (layoutParam === 'left' || layoutParam === 'right') ? layoutParam : null;
+  const layout: 'left' | 'right' | null =
+    layoutParam === 'left' || layoutParam === 'right' ? layoutParam : null;
 
   if (!layout) {
-    throw error(400, 'Invalid or missing layout parameter. Expected "left" or "right".');
+    throw error(
+      400,
+      'Invalid or missing layout parameter. Expected "left" or "right".'
+    );
   }
 
   return { project, layout };

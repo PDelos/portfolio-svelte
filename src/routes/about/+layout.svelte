@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { LayoutProps } from './$types';
+  import type { LayoutProps } from './$types';
 
-	let { data, children }: LayoutProps = $props();
+  let { data, children }: LayoutProps = $props();
   let { contact, info } = data.about;
   let { skills, education, certifications, experiences, awards } = info;
 
@@ -12,8 +12,7 @@
     { id: 'skills', label: 'Skills', exists: !!skills },
     { id: 'certifications', label: 'Certifications', exists: !!certifications },
     { id: 'awards', label: 'Awards', exists: !!awards }
-  ].filter(i => i.exists);
-
+  ].filter((i) => i.exists);
 </script>
 
 <nav>

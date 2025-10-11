@@ -12,7 +12,7 @@ export const PROJECT_TAGS = [
   'animation',
   'frontend',
   'backend',
-  'fullstack',
+  'fullstack'
 ] as const;
 
 export type ProjectTag = (typeof PROJECT_TAGS)[number];
