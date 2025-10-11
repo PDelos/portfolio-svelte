@@ -16,7 +16,7 @@
 </script>
 
 <nav>
-  {#each navItems as item}
+  {#each navItems as item (item.id)}
     <a href="#{item.id}">{item.label}</a>
   {/each}
 </nav>

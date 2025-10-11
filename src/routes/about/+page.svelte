@@ -3,7 +3,7 @@
 
   let { data }: { data: PageData } = $props();
   let { contact, info } = data.about;
-  let { skills, education, certifications, experiences, awards } = info;
+  let { certifications, awards } = info;
 
   async function handleSubmit(event: Event) {
     event.preventDefault();
@@ -24,8 +24,15 @@
 
 <section id="contact">
   <h2>{contact.name}</h2>
-  {#each Object.entries(contact.socialLinks) as [platform, url]}
-    <p><a href={url} target="_blank" rel="noopener">{platform}</a></p>
+  {#each Object.entries(contact.socialLinks) as [platform, url] (platform)}
+    <p>
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-sveltekit-reload>{platform}</a
+      >
+    </p>
   {/each}
 </section>
 

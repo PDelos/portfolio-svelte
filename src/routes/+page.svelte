@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { resolve } from '$app/paths';
   import ScrollGoto from '$lib/components/ScrollGoto.svelte';
 </script>
 
@@ -10,9 +11,9 @@
 
   <nav class="navigation">
     <!-- route links to work and about -->
-    <a href="/work">Work</a>
-    <a href="/about">About</a>
+    <a href={resolve('/work')}>Work</a>
+    <a href={resolve('/about')}>About</a>
   </nav>
 </header>
 
-<ScrollGoto position="bottom" url="/work" />
+<ScrollGoto position="bottom" url={resolve('/work')} />

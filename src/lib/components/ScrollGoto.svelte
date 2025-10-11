@@ -14,8 +14,6 @@
   let show = $derived(charge > 0);
 
   $effect(() => {
-    let lastScrollable: HTMLElement | Window | null = null;
-
     const handle = (e: WheelEvent) => {
       // Find the scrollable element
       let target = e.target as HTMLElement;
@@ -33,8 +31,6 @@
         }
         target = target.parentElement!;
       }
-
-      lastScrollable = scrollable;
 
       // Check if at edge
       let isAtEdge: boolean;

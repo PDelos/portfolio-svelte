@@ -83,8 +83,8 @@ const allProjectsCache: Map<string, ProjectDetail> = new Map();
  * @returns Array of project previews sorted by date (newest first)
  */
 export function loadProjectPreviews(): ProjectPreview[] {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const previews: ProjectPreview[] = Array.from(allProjectsCache.values()).map(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ({ images, ...preview }) => preview
   );
 

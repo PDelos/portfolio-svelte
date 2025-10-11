@@ -22,12 +22,12 @@
 
 <ScrollGoto position="top" url="/work#{project.slug}" />
 <Content {content} {layout} padding={2}>
-  {#snippet children(caption: string | undefined)}
+  {#each content as { data: caption } (caption)}
     {#if caption}
       <div class="max-w-2xl px-4 text-center">
         <p class="text-lg leading-relaxed">{caption}</p>
       </div>
     {/if}
-  {/snippet}
+  {/each}
 </Content>
 <ScrollGoto position="bottom" url="/work#{project.slug}" />

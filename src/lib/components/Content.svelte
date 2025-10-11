@@ -5,14 +5,14 @@
   import type { Picture } from 'vite-imagetools';
   import type { Snippet } from 'svelte';
 
-  interface ContentItem<TData = any> {
+  interface ContentItem<TData = unknown> {
     picture: Picture;
     link?: string;
     id?: string;
     data: TData;
   }
 
-  interface Props<TData = any> {
+  interface Props<TData = unknown> {
     content: ContentItem<TData>[];
     layout?: 'left' | 'right' | 'alternate';
     padding?: number;
@@ -24,7 +24,7 @@
     layout = 'left',
     padding = 0,
     children
-  }: Props<any> = $props();
+  }: Props<unknown> = $props();
   let sectionRef: HTMLElement;
   let imageRefs: (HTMLElement | undefined)[] = [];
   let currentIndex = $state(0);
@@ -92,7 +92,7 @@
   bind:this={sectionRef}
   class="h-screen w-screen snap-y snap-mandatory overflow-y-scroll"
 >
-  {#each content as { picture, link, id, data }, i}
+  {#each content as { picture, link, id, data }, i (id || i)}
     {@const shouldReverse =
       layout === 'right' || (layout === 'alternate' && i % 2 !== 0)}
     <article
