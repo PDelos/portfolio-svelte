@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 110" width="128" height="128">
+  <!-- Circle converted to path -->
+  <path d="M 105,55
+           A 50,50 0 1,0 5,55
+           A 50,50 0 1,0 105,55"
+        stroke="#222222" fill="none" stroke-width="10"/>
+
+  <!-- Path 1 (triangle-like shape) -->
+  <path d="M 19.276 84.328 L 55.831 5.324 L 89.275 85.689"
+        stroke="#222222" fill="none" stroke-width="10"
+        stroke-linecap="square" stroke-linejoin="round"/>
+
+  <!-- Path 2 (horizontal line) -->
+  <path d="M 35 55 L 75 55"
+        stroke="#222222" fill="none" stroke-width="10"/>
+</svg>
