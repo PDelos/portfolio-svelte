@@ -1,45 +1,62 @@
 <script lang="ts">
   import type { PageProps } from './$types';
-  import { formatDate } from '$lib/utils/general';
-  import Content from '$lib/components/Content.svelte';
   import type { ProjectPreview } from '$lib/types/project';
+  import EndlessCarousel from '$lib/components/EndlessCarousel.svelte';
+  import ParallaxImage from '$lib/components/ParallaxImage.svelte';
+  import { formatDate } from '$lib/utils/general';
+  import { resolve } from '$app/paths';
 
   let { data }: PageProps = $props();
   let { projects } = data;
 
+  type PreviewItem = { layout: 'left' | 'right'; project: ProjectPreview };
   const content = projects.map((project, i) => {
-    const layout = i % 2 === 0 ? 'left' : 'right';
-    return {
-      picture: project.cover,
-      link: `/work/${project.slug}?layout=${layout}`,
-      id: project.slug,
-      data: project satisfies ProjectPreview
-    };
+    const layout: 'left' | 'right' = i % 2 === 0 ? 'left' : 'right';
+    return { layout, project };
   });
 </script>
 
-<Content {content} layout="alternate">
-  {#snippet children(project: ProjectPreview)}
-    <div class="max-w-2xl px-4 text-center">
-      <h3 class="mb-4 text-3xl font-bold">{project.title}</h3>
-      {#if project.duration}
-        <p class="mb-2 leading-relaxed">
-          {formatDate(project.duration.start, 'short')} to {formatDate(
-            project.duration.end,
-            'short'
-          )}
-        </p>
-      {/if}
-      <div class="mb-4 flex flex-wrap justify-center gap-2">
-        {#each project.tags as tag}
-          <span
-            class="inline-block rounded-full bg-gray-200 px-4 py-2 text-sm text-gray-800"
-          >
-            {tag}
-          </span>
-        {/each}
-      </div>
-      <p class="mb-2 leading-relaxed">{project.description}</p>
+{#snippet PreviewText(project: ProjectPreview)}
+  <section class="w-[80%] flex flex-col items-center justify-center gap-2 text-center">
+    <h2 class="text-4xl text-thin">{project.title}</h2>
+    <div class="h-4"></div>
+    {#if project.duration}
+      <p>
+        {formatDate(project.duration.start)} - {formatDate(
+          project.duration.end
+        )}
+      </p>
+    {/if}
+    <div class="flex flex-row gap-4">
+      {#each project.tags as tag}
+          <span class ="bg-[#c4c4c4] text-[12px] rounded-full px-3 py-1">{tag}</span>
+      {/each}
     </div>
-  {/snippet}
-</Content>
+    <p class="text-sm">{project.description}</p>
+  </section>
+{/snippet}
+
+{#snippet PreviewContent(item: PreviewItem)}
+  <article
+    class="flex h-screen w-screen flex-row"
+    class:flex-row-reverse={item.layout === 'right'}
+  >
+    <div class="flex w-1/2 items-center justify-center">
+      <ParallaxImage
+        picture={item.project.cover}
+        link={resolve(`/work/${item.project.slug}?layout=${item.layout}`)}
+        loading="eager"
+      />
+    </div>
+    <div class="flex w-1/2 items-center justify-center">
+      {@render PreviewText(item.project)}
+    </div>
+  </article>
+{/snippet}
+
+<EndlessCarousel
+  data={content}
+  snippet={PreviewContent}
+  class="h-screen w-screen"
+  id="projects-carousel"
+/>

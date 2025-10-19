@@ -15,9 +15,9 @@
   ].filter((i) => i.exists);
 </script>
 
-<nav>
+<nav class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-gray-200 shadow-sm flex gap-4 px-6 py-3">
   {#each navItems as item (item.id)}
-    <a href="#{item.id}">{item.label}</a>
+    <a href="#{item.id}" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-150">{item.label}</a>
   {/each}
 </nav>
 

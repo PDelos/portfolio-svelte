@@ -1,64 +1,42 @@
 <script lang="ts">
-  type Position = 'bottom' | 'top';
+  import { goto } from '$app/navigation';
 
   interface Props {
-    position: Position;
+    position: 'bottom' | 'top';
     url: string;
     amount?: number;
   }
 
   let { position, url, amount = 1000 }: Props = $props();
-
   let charge = $state(0);
   let percent = $derived(Math.min(100, (charge / amount) * 100));
   let show = $derived(charge > 0);
 
   $effect(() => {
     const handle = (e: WheelEvent) => {
-      // Find the scrollable element
-      let target = e.target as HTMLElement;
-      let scrollable: HTMLElement | Window = window;
-
-      // Walk up the DOM tree to find a scrollable element
-      while (target && target !== document.documentElement) {
-        const hasVerticalScroll = target.scrollHeight > target.clientHeight;
-        const canScroll =
-          window.getComputedStyle(target).overflowY !== 'hidden';
-
-        if (hasVerticalScroll && canScroll) {
-          scrollable = target;
-          break;
-        }
-        target = target.parentElement!;
+      let el: HTMLElement | Window = e.target as HTMLElement;
+      while (el instanceof HTMLElement && el !== document.documentElement) {
+        if (el.scrollHeight > el.clientHeight && getComputedStyle(el).overflowY !== 'hidden') break;
+        el = el.parentElement!;
       }
 
-      // Check if at edge
-      let isAtEdge: boolean;
-      if (scrollable === window) {
-        isAtEdge =
-          position === 'bottom'
-            ? window.scrollY + window.innerHeight >=
-              document.documentElement.scrollHeight - 5
-            : window.scrollY <= 5;
-      } else {
-        const el = scrollable as HTMLElement;
-        isAtEdge =
-          position === 'bottom'
-            ? el.scrollTop + el.clientHeight >= el.scrollHeight - 5
-            : el.scrollTop <= 5;
-      }
+      const scrollEl = el instanceof HTMLElement ? el : window;
+      const atEdge = position === 'bottom'
+        ? (scrollEl instanceof Window
+            ? window.scrollY + window.innerHeight
+            : scrollEl.scrollTop + scrollEl.clientHeight) >=
+          (scrollEl instanceof Window ? document.documentElement.scrollHeight : scrollEl.scrollHeight) - 5
+        : (scrollEl instanceof Window ? window.scrollY : scrollEl.scrollTop) <= 5;
 
-      const valid = position === 'bottom' ? e.deltaY > 0 : e.deltaY < 0;
-      const opposite = position === 'bottom' ? e.deltaY < 0 : e.deltaY > 0;
+      if (!atEdge) return charge = 0;
 
-      if (isAtEdge && valid) {
+      const delta = position === 'bottom' ? e.deltaY : -e.deltaY;
+      if (delta > 0) {
         e.preventDefault();
-        charge += Math.abs(e.deltaY);
-        if (percent >= 100) window.location.href = url;
-      } else if (isAtEdge && opposite) {
-        charge = Math.max(0, charge - Math.abs(e.deltaY));
-      } else if (!isAtEdge) {
-        charge = 0;
+        charge += delta;
+        if (percent >= 100) goto(url);
+      } else {
+        charge = Math.max(0, charge + delta);
       }
     };
 
@@ -68,9 +46,12 @@
 </script>
 
 <div
-  class="fixed left-0 z-50 h-2 bg-blue-500 transition-all {position === 'bottom'
-    ? 'bottom-0'
-    : 'top-0'}"
-  class:opacity-0={!show}
-  style="width: {percent}%"
-></div>
+  class="fixed left-0 z-50 h-[6px] bg-gray-500 transition-all"
+  class:bottom-2={position === 'bottom'}
+  class:top-2={position === 'top'}
+  style="width: {percent}%; opacity: {show ? 0.8 : 0}; transition: width 0.2s ease-out;"
+>
+  <span class="text-xs absolute left-5" style={position === 'bottom' ? 'bottom: 7px;' : 'top: 7px;'}>
+    {Math.round(percent)}%
+  </span>
+</div>

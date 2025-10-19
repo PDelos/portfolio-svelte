@@ -40,12 +40,16 @@ export interface SimpleEntry extends BaseEntry {
 export interface ContactData {
   name: string;
   email: string;
+  role: string;
+  titles: string;
   phone?: string; // Optional since not everyone wants to share
   location: string;
   socialLinks: Record<string, string>;
+  description: string;
 }
 
 export interface AboutData {
+  research?: string[];
   skills: Skill[];
   experiences: TimedEntry[];
   education: TimedEntry[];

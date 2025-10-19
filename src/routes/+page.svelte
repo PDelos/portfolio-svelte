@@ -1,10 +1,13 @@
-<script lang="ts">
+<script>
   import { resolve } from '$app/paths';
   import ScrollGoto from '$lib/components/ScrollGoto.svelte';
 </script>
 
-<header id="welcome">
-  <div class="logo">
+<header
+  id="welcome"
+  class="flex h-screen flex-col items-center justify-center p-4"
+>
+  <div id="logo">
     <!-- logo and name content -->
     <h1>Aina Masferrer</h1>
   </div>
@@ -16,4 +19,4 @@
   </nav>
 </header>
 
-<ScrollGoto position="bottom" url={resolve('/work')} />
+<ScrollGoto position="bottom" url={resolve('/work')}/>
