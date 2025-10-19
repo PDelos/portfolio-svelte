@@ -17,8 +17,10 @@
 </script>
 
 {#snippet PreviewText(project: ProjectPreview)}
-  <section class="w-[80%] flex flex-col items-center justify-center gap-2 text-center">
-    <h2 class="text-4xl text-thin">{project.title}</h2>
+  <section
+    class="flex w-[80%] flex-col items-center justify-center gap-2 text-center"
+  >
+    <h2 class="text-thin text-4xl">{project.title}</h2>
     <div class="h-4"></div>
     {#if project.duration}
       <p>
@@ -29,7 +31,9 @@
     {/if}
     <div class="flex flex-row gap-4">
       {#each project.tags as tag}
-          <span class ="bg-[#c4c4c4] text-[12px] rounded-full px-3 py-1">{tag}</span>
+        <span class="rounded-full bg-[#c4c4c4] px-3 py-1 text-[12px]"
+          >{tag}</span
+        >
       {/each}
     </div>
     <p class="text-sm">{project.description}</p>

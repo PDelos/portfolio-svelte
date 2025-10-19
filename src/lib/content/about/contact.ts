@@ -9,7 +9,7 @@ export const contactData: ContactData = {
   socialLinks: {
     linkedin: 'https://linkedin.com/in/aainamasferrer',
     instagram: 'https://instagram.com/aainamasferrer',
-    gmail: 'aainamasferrer@gmail.com',
+    gmail: 'aainamasferrer@gmail.com'
   },
-  description: `Hello! I'm Aina, a passionate Graphic and UX/UI Designer based in Barcelona. With a keen eye for aesthetics and a deep understanding of user experience, I specialize in creating visually stunning and user-friendly designs. Whether it's crafting compelling brand identities or designing intuitive digital interfaces, I thrive on bringing ideas to life through design. Let's connect and create something amazing together!`,
+  description: `Hello! I'm Aina, a passionate Graphic and UX/UI Designer based in Barcelona. With a keen eye for aesthetics and a deep understanding of user experience, I specialize in creating visually stunning and user-friendly designs. Whether it's crafting compelling brand identities or designing intuitive digital interfaces, I thrive on bringing ideas to life through design. Let's connect and create something amazing together!`
 };

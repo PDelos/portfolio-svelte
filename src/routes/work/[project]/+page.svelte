@@ -16,8 +16,9 @@
 
   let previewLink = $derived(`/work#${project.slug}`);
 </script>
-<ScrollGoto position="top" url={previewLink}/>
-<ScrollGoto position="bottom" url={previewLink}/>
+
+<ScrollGoto position="top" url={previewLink} />
+<ScrollGoto position="bottom" url={previewLink} />
 
 <section class="flex w-screen flex-col items-center justify-center pb-8">
   {#each content as item}
