@@ -5,6 +5,7 @@
 
   interface Props {
     picture: Picture;
+    sizes?: string;
     link?: string;
     alt?: string;
     loading?: 'eager' | 'lazy';
@@ -15,6 +16,7 @@
 
   let {
     picture,
+    sizes,
     link,
     alt = '',
     loading = 'lazy',
@@ -68,6 +70,7 @@
     src={picture}
     {alt}
     {loading}
+    {sizes}
     class="parallax-image size-full object-cover"
   />
 </svelte:element>

@@ -27,12 +27,12 @@
       class:flex-row-reverse={layout === 'right'}
     >
       <div class="m-4 flex w-1/2 items-center justify-center">
-        <ParallaxImage picture={item.picture} loading="eager" />
+        <ParallaxImage picture={item.picture} loading="eager" sizes="50vw" />
       </div>
       <div class="flex w-1/2 items-center justify-center">
         <div class="flex w-[75%] items-center justify-center">
           {#if item.caption}
-            <p class="text-sm">{item.caption}</p>
+            <p class="text-sm whitespace-pre-line">{item.caption}</p>
           {/if}
         </div>
       </div>

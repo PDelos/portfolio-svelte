@@ -3,16 +3,17 @@ import type { Picture } from 'vite-imagetools';
 // Project tags with const assertion for better type inference
 export const PROJECT_TAGS = [
   'web design',
+  'graphic identity',
+  'art direction',
   'e-commerce',
   'UI/UX',
-  'mobile',
+  'AI',
   'branding',
-  'typography',
-  'illustration',
-  'animation',
-  'frontend',
-  'backend',
-  'fullstack'
+  'engineering',
+  'generative',
+  'sound',
+  'marketing',
+  'crafts'
 ] as const;
 
 export type ProjectTag = (typeof PROJECT_TAGS)[number];

@@ -16,49 +16,43 @@ const metaModules = import.meta.glob<MetaModule>(
   { eager: true }
 );
 
-// Load all images at build time with enhanced processing
+// Load all images at build time with optimized widths for half-screen display
+// Generates: 640w, 828w, 1200w, 1920w variants
 const imageModules = import.meta.glob<ImageModule>(
   '/src/lib/content/projects/*/*.{jpg,jpeg,png,webp}',
-  { eager: true, query: '?enhanced' }
+  {
+    eager: true,
+    query: {
+      enhanced: true,
+      w: '640;828;1200;1920'
+    }
+  }
 );
 
-// ============================================
-// CACHED GLOBAL INSTANCE - Built once at module load
-// ============================================
-
-const allProjectsCache: Map<string, ProjectDetail> = new Map();
-
-// Build the cache immediately when this module loads
-(function buildCache() {
-  for (const [path, module] of Object.entries(metaModules)) {
+// Build everything once at module load time
+const allProjects: ProjectDetail[] = Object.entries(metaModules).map(
+  ([path, module]) => {
     const slug = path.split('/').at(-2)!;
     const meta = module.default;
 
-    // Find cover image (any extension)
-    const cover = Object.entries(imageModules).find(([path]) =>
-      path.includes(`/${slug}/cover.`)
+    // Find cover image
+    const cover = Object.entries(imageModules).find(([p]) =>
+      p.includes(`/${slug}/cover.`)
     )?.[1]?.default;
 
     if (!cover) {
-      console.error(`❌ Missing cover image for project "${slug}"`);
-      console.error(`   Expected: /src/lib/content/projects/${slug}/cover.*`);
-      continue;
+      throw new Error(`Missing cover image for project "${slug}"`);
     }
 
     // Get all other images (excluding cover)
     const images = Object.entries(imageModules)
-      .filter(
-        ([path]) => path.includes(`/${slug}/`) && !path.includes('cover.')
-      )
-      .map(([path, module]) => {
-        const filename = path.split('/').pop()!;
-        return {
-          picture: module.default,
-          caption: meta.projects?.[filename]
-        };
-      });
+      .filter(([p]) => p.includes(`/${slug}/`) && !p.includes('cover.'))
+      .map(([p, module]) => ({
+        picture: module.default,
+        caption: meta.projects?.[p.split('/').pop()!]
+      }));
 
-    const projectDetail: ProjectDetail = {
+    return {
       slug,
       title: meta.title,
       description: meta.description,
@@ -68,49 +62,42 @@ const allProjectsCache: Map<string, ProjectDetail> = new Map();
       cover,
       images
     };
-
-    allProjectsCache.set(slug, projectDetail);
   }
-})();
+);
 
-// ============================================
-// PUBLIC API - Just reads from cache
-// ============================================
+// Pre-sort projects by date (newest first)
+allProjects.sort((a, b) => {
+  const dateA = a.duration?.end?.getTime() ?? 0;
+  const dateB = b.duration?.end?.getTime() ?? 0;
+  return dateB - dateA;
+});
+
+// Pre-build previews (without images array)
+const allPreviews: ProjectPreview[] = allProjects.map(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ({ images, ...preview }) => preview
+);
+
+// Pre-build slug lookup map for O(1) access
+const projectsBySlug = new Map(allProjects.map((p) => [p.slug, p]));
 
 /**
- * Load project previews for the work page
- * Only returns cover images and basic metadata
- * @returns Array of project previews sorted by date (newest first)
+ * Load project previews - instant, pre-built at module load
  */
 export function loadProjectPreviews(): ProjectPreview[] {
-  const previews: ProjectPreview[] = Array.from(allProjectsCache.values()).map(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ({ images, ...preview }) => preview
-  );
-
-  // Sort by duration end date, newest first (if duration exists)
-  return previews.sort((a, b) => {
-    const dateA = a.duration?.end?.getTime() ?? 0;
-    const dateB = b.duration?.end?.getTime() ?? 0;
-    return dateB - dateA;
-  });
+  return allPreviews;
 }
 
 /**
- * Get full project details including all images
- * Used for individual project pages
- * @param slug - Project folder name
- * @returns Project detail with all images or undefined if not found
+ * Get project detail by slug - O(1) lookup
  */
 export function getProjectDetail(slug: string): ProjectDetail | undefined {
-  return allProjectsCache.get(slug);
+  return projectsBySlug.get(slug);
 }
 
 /**
- * Get all available project slugs
- * Useful for static route generation
- * @returns Array of all project folder names
+ * Get all project slugs - instant, pre-built at module load
  */
 export function getAllProjectSlugs(): string[] {
-  return Array.from(allProjectsCache.keys());
+  return Array.from(projectsBySlug.keys());
 }

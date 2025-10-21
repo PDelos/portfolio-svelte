@@ -18,17 +18,19 @@
 
 {#snippet PreviewText(project: ProjectPreview)}
   <section
-    class="flex w-[80%] flex-col items-center justify-center gap-2 text-center"
+    class="flex w-[75%] flex-col items-center justify-center gap-2 text-center"
   >
     <h2 class="text-thin text-4xl">{project.title}</h2>
     <div class="h-4"></div>
+    <!--
     {#if project.duration}
-      <p>
+      <p class="text-sm">
         {formatDate(project.duration.start)} - {formatDate(
           project.duration.end
         )}
       </p>
     {/if}
+    -->
     <div class="flex flex-row gap-4">
       {#each project.tags as tag}
         <span class="rounded-full bg-[#c4c4c4] px-3 py-1 text-[12px]"
@@ -48,6 +50,7 @@
     <div class="flex w-1/2 items-center justify-center">
       <ParallaxImage
         picture={item.project.cover}
+        sizes="50vw"
         link={resolve(`/work/${item.project.slug}?layout=${item.layout}`)}
         loading="eager"
       />
