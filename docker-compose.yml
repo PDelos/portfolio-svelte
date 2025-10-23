@@ -1,0 +1,32 @@
+services:
+  sveltekit:
+    build: ./app
+    container_name: sveltekit
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - web
+
+  caddy:
+    image: caddy:2.9
+    container_name: caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - web
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  web:
+    driver: bridge
+    

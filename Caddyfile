@@ -1,0 +1,4 @@
+ainamasferrer.me, www.ainamasferrer.me {
+    reverse_proxy sveltekit:3000
+    encode gzip
+}

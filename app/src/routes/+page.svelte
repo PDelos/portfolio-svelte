@@ -51,4 +51,4 @@
   </div>
 </header>
 
-<ScrollGoto position="bottom" url={resolve('/work')} />
+<ScrollGoto position="bottom" url={resolve('/work')} amount={500} />
