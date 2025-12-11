@@ -5,9 +5,10 @@
     position: 'bottom' | 'top';
     url: string;
     amount?: number;
+    hidden?: boolean;
   }
 
-  let { position, url, amount = 1000 }: Props = $props();
+  let { position, url, amount = 1000, hidden = false }: Props = $props();
   let charge = $state(0);
   let percent = $derived(Math.min(100, (charge / amount) * 100));
   let show = $derived(charge > 0);
@@ -55,18 +56,21 @@
   });
 </script>
 
-<div
-  class="fixed left-0 z-50 h-[6px] bg-gray-500 transition-all"
-  class:bottom-2={position === 'bottom'}
-  class:top-2={position === 'top'}
-  style="width: {percent}%; opacity: {show
-    ? 0.8
-    : 0}; transition: width 0.2s ease-out;"
->
-  <span
-    class="absolute left-5 text-xs"
-    style={position === 'bottom' ? 'bottom: 7px;' : 'top: 7px;'}
+{#if !hidden}
+  <div
+    class="pointer-events-none fixed left-1/2 z-50 -translate-x-1/2 font-instrument text-sm font-bold tracking-widest transition-opacity duration-300"
+    class:bottom-8={position === 'bottom'}
+    class:top-8={position === 'top'}
+    style="opacity: {show ? 1 : 0}"
   >
-    {Math.round(percent)}%
-  </span>
-</div>
+    <div class="relative text-black/20">
+      SCROLL TO REDIRECT
+      <div
+        class="absolute top-0 left-0 overflow-hidden whitespace-nowrap text-black transition-[width] duration-100 ease-linear"
+        style="width: {percent}%"
+      >
+        SCROLL TO REDIRECT
+      </div>
+    </div>
+  </div>
+{/if}

@@ -3,6 +3,7 @@
   import type { Entry } from '$lib/types/about';
   import { formatDateRange } from '$lib/utils/general';
   import Icon from '$lib/components/Icon.svelte';
+  import Tag from '$lib/components/Tag.svelte';
 
   let { data }: LayoutProps = $props();
   const { contact, info } = data.about;
@@ -134,7 +135,7 @@
     </h2>
     <div class="flex flex-wrap gap-2">
       {#each research as topic}
-        <span class="rounded-full bg-gray-100 px-2 text-gray-700">{topic}</span>
+        <Tag text={topic} />
       {/each}
     </div>
   </section>

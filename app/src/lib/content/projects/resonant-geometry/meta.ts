@@ -1,16 +1,21 @@
-import type { Project } from '$lib/types/project';
+import type { Project, ProjectTag } from '$lib/types/project';
+import { cover } from '$lib/utils/general';
+
+const title = 'Resonant Geometry';
+const tags: ProjectTag[] = ['Experimental', 'Technology', 'Media', 'Design'];
+
 export default {
-  title: 'Resonant Geometry',
+  title,
   description:
     'Generative audiovisual piece that transforms techno music into movement and form, revealing how sound can bring geometry to life through light and symmetry.',
   duration: {
     start: new Date('2024-03-15'),
     end: new Date('2024-06-15')
   },
-  tags: ['generative', 'sound', 'art direction'],
+  tags,
   cover: {
     src: 'cover',
-    text: 'Resonant Geometry'
+    text: cover(title, tags)
   },
   gallery: [
     {

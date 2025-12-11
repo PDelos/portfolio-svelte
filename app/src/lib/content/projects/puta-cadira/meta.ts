@@ -1,16 +1,21 @@
-import type { Project } from '$lib/types/project';
+import type { Project, ProjectTag } from '$lib/types/project';
+import { cover } from '$lib/utils/general';
+
+const title = 'La Puta Cadira';
+const tags: ProjectTag[] = ['Design', 'Experimental', 'Research', 'Creative Eng.'];
+
 export default {
-  title: 'La Puta Cadira',
+  title,
   description:
     'Designed "The F*cking Chair," a socially-driven project creating dignified, functional seating for street-based sex workers, including product design, prototyping, graphic identity, and advocacy materials.',
   duration: {
     start: new Date('2024-03-15'),
     end: new Date('2024-06-15')
   },
-  tags: ['engineering', 'crafts', 'graphic identity', 'art direction'],
+  tags,
   cover: {
     src: 'cover',
-    text: 'La Puta Cadira'
+    text: cover(title, tags)
   },
   gallery: [
     {

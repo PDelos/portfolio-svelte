@@ -22,7 +22,6 @@
   let mouseY = $state(0);
 
   function handleMouseMove(e: MouseEvent) {
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     mouseX = e.clientX;
     mouseY = e.clientY;
   }

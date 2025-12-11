@@ -1,17 +1,21 @@
-import type { Project } from '$lib/types/project';
+import type { Project, ProjectTag } from '$lib/types/project';
+import { cover } from '$lib/utils/general';
+
+const title = 'Ull tapat';
+const tags: ProjectTag[] = ['Branding', 'Design', 'Media', 'Research'];
 
 export default {
-  title: 'Ull tapat',
+  title,
   description:
     'Design and marketing analysis for a participatory exhibition proposal at the Museu d’Art Prohibit in Barcelona, aimed at enhancing audience engagement.',
   duration: {
     start: new Date('2024-03-15'),
     end: new Date('2024-06-15')
   },
-  tags: ['branding', 'graphic identity', 'marketing', 'art direction'],
+  tags,
   cover: {
     src: 'cover',
-    text: 'Ull Tapat'
+    text: cover(title, tags)
   },
   gallery: [
     {

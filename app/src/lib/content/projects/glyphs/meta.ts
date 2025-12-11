@@ -1,22 +1,26 @@
-import type { Project } from '$lib/types/project';
+import type { Project, ProjectTag } from '$lib/types/project';
+import { cover } from '$lib/utils/general';
+
+const title = 'Glyphs';
+const tags: ProjectTag[] = ['Design', 'UX/UI', 'Technology', 'Research'];
 
 export default {
-  title: 'Glyphs',
+  title,
   description:
     'Vox-ATypI typography classification platform with AI-powered typeface recognition, including UX/UI design, visual identity, 3D imagery, and real design book examples.',
   duration: {
     start: new Date('2024-03-15'),
     end: new Date('2024-06-15')
   },
-  tags: ['web design', 'UI/UX', 'graphic identity', 'AI', 'art direction'],
+  tags,
   cover: {
     src: 'cover',
-    text: 'Glyphs'
+    text: cover(title, tags)
   },
   gallery: [
     {
       src: '01',
-      text: 'Glyphs is a project developed around the Vox–ATypI typography classification system, designed to explore and identify alternatives to existing typefaces.'
+      text: `${title} is a project developed around the Vox–ATypI typography classification system, designed to explore and identify alternatives to existing typefaces.`
     },
     {
       src: '02',

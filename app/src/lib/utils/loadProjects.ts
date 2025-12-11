@@ -25,16 +25,35 @@ const images = import.meta.glob<{ default: string }>(
 );
 
 /**
+ * Load all videos (served as static assets)
+ */
+const videos = import.meta.glob<{ default: string }>(
+  '/src/lib/content/projects/*/*.{mp4,webm,mov}',
+  { eager: true }
+);
+
+/**
  * Get all projects with processed images
  */
 export function getAllProjects(): Project[] {
   function getPicture(slug: string, pic: AnnotatedPicture): AnnotatedPicture {
-    const path = Object.keys(images).find((p) =>
+    // Try to find video first
+    const videoPath = Object.keys(videos).find((p) =>
       p.includes(`/${slug}/${pic.src}.`)
     );
-    if (!path) throw new Error(`Image not found: ${pic.src}. Project: ${slug}`);
-    return { src: images[path].default, text: pic.text };
+    if (videoPath) {
+      return { src: videos[videoPath].default, text: pic.text, isVideo: true };
+    }
+
+    // Fall back to image
+    const imagePath = Object.keys(images).find((p) =>
+      p.includes(`/${slug}/${pic.src}.`)
+    );
+    if (!imagePath)
+      throw new Error(`Media not found: ${pic.src}. Project: ${slug}`);
+    return { src: images[imagePath].default, text: pic.text, isVideo: false };
   }
+
   return Object.entries(metas).map(([path, module]) => {
     const slug = path.split('/').at(-2)!;
     const meta = module.default;

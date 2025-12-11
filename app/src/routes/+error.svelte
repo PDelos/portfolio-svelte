@@ -4,7 +4,7 @@
 
 <main>
   <div class="error-container">
-    <h1 class="error-text">Page error {page.status}: {page.error?.message}</h1>
+    <h1 class="error-text font-montserrat font-bold">Page error {page.status}: {page.error?.message}</h1>
   </div>
 </main>
 

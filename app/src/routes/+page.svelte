@@ -1,54 +1,59 @@
-<script>
+<script lang="ts">
   import { resolve } from '$app/paths';
   import ScrollGoto from '$lib/components/ScrollGoto.svelte';
+  import type { PageProps } from './$types';
+  
+  let { data }: PageProps = $props();
+  const { contact, info } = data.about;
 </script>
 
 <header
   id="welcome"
-  class="relative flex h-screen flex-col items-center justify-center p-4"
+  class="relative flex h-screen w-full flex-col justify-end overflow-hidden"
 >
-  <div class="space-y-12 text-center">
-    <div id="logo">
-      <h1 class="text-5xl font-light tracking-wide text-gray-900 md:text-6xl">
-        Aina Masferrer
-      </h1>
+  <!-- Bottom Content -->
+  <div
+    class="pointer-events-none z-10 flex w-full flex-col items-start px-[3%] pb-[5%]"
+  >
+    <h1
+      class="font-montserrat text-[9.5vw] leading-none font-bold whitespace-nowrap uppercase"
+    >
+      AINA MASFERRER
+    </h1>
+    <div class="mt-2 flex w-[40vw] flex-col items-start">
+      <p class="font-impressum text-[3.5vw] leading-none">
+        Designer & Producer
+      </p>
+      <p class="font-instrument text-[2.5vw] leading-tight">
+        in Barcelona & remote work
+      </p>
     </div>
-
-    <nav class="navigation flex justify-center gap-12 text-sm">
-      <a
-        href={resolve('/work')}
-        class="tracking-wider text-gray-900 uppercase transition-colors duration-200 hover:text-gray-600"
-      >
-        Work
-      </a>
-      <a
-        href={resolve('/about')}
-        class="tracking-wider text-gray-900 uppercase transition-colors duration-200 hover:text-gray-600"
-      >
-        About
-      </a>
-    </nav>
+    <p class="font-instrument text-[1vw] leading-relaxed">
+      Art direction, UX/UI, branding, graphic design, photographer, visuals,
+      brand identity
+    </p>
   </div>
 
-  <!-- Minimal scroll indicator -->
-  <div
-    class="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 opacity-40"
-  >
-    <span class="text-xs tracking-widest uppercase">Scroll</span>
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-8 right-[3%] z-10 animate-bounce">
     <svg
-      class="h-4 w-4 animate-bounce"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      viewBox="0 0 24 24"
+      stroke-width="1"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="1.5"
-        d="M19 14l-7 7m0 0l-7-7m7 7V3"
-      />
+      <path d="M12 5v14M19 12l-7 7-7-7" />
     </svg>
   </div>
 </header>
 
-<ScrollGoto position="bottom" url={resolve('/work')} amount={500} />
+<ScrollGoto
+  position="bottom"
+  url={resolve('/work')}
+  hidden={true}
+  amount={100}
+/>
