@@ -81,9 +81,11 @@ if [ -n "$SERVICES_TO_BUILD" ]; then
     IMAGES_TO_TRANSFER=()
     for service in $SERVICES_TO_BUILD; do
         IMAGE_NAME=$(docker compose config | grep -A 10 "^  $service:" | grep "image:" | head -1 | awk '{print $2}')
+        echo "[DEBUG] Extracted image name for $service: '$IMAGE_NAME'"
         if [ -z "$IMAGE_NAME" ]; then
             # If no explicit image name, use the default compose naming
             IMAGE_NAME="$(basename $(pwd) | tr '[:upper:]' '[:lower:]')-${service}"
+            echo "[DEBUG] Using default image name for $service: '$IMAGE_NAME'"
         fi
         IMAGES_TO_TRANSFER+=("$IMAGE_NAME")
         log_info "  - $service → $IMAGE_NAME"

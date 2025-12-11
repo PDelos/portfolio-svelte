@@ -1,6 +1,7 @@
 services:
   sveltekit:
     build: ./app
+    image: portfolio-sveltekit
     container_name: sveltekit
     restart: always
     ports:
